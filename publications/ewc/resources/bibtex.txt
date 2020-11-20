@@ -1,6 +1,6 @@
-@inproceedings{author20XXtitle,
-  title={Please cite me},
-  author={Author, First and Author, Second and Author, Third},
-  booktitle={Conference},
-  year={20XX}
+@inproceedings{li2020few,
+  title={Few-shot Image Generation with Elastic Weight Consolidation},
+  author={Li, Yijun and Zhang, Richard and Lu, Jingwan Cynthia and Shechtman, Eli},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2020}
 }
