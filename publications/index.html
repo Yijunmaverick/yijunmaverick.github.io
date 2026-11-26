@@ -1,832 +1,787 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <title>Research</title>
-    <link rel="icon" type="image/x-icon" href="https://avatars1.githubusercontent.com/u/10704714?s=460&v=4"/>
-<style id="system" type="text/css">body{}</style><style id="custom" type="text/css">html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publications | Yijun Li</title>
+  <meta name="description" content="Selected publications of Yijun Li on generative models, image/video generation and editing.">
+  <link rel="icon" type="image/x-icon" href="https://avatars1.githubusercontent.com/u/10704714?s=460&v=4"/>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #2b2f36;
+      --muted: #6b7280;
+      --border: #e6e8ec;
+      --accent: #1a56db;
+      --accent-soft: #e8effd;
+      --hl: #c81e1e;
+      --hl-soft: #fdecec;
+      --shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+      --shadow-hover: 0 6px 20px rgba(16,24,40,.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --card: #171a21;
+        --text: #e4e6eb;
+        --muted: #9aa1ad;
+        --border: #2a2f3a;
+        --accent: #7aa2ff;
+        --accent-soft: #1f2a44;
+        --hl: #ff7a7a;
+        --hl-soft: #3a1f22;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-body{
-color:#444;
-font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
-font-size:12px;
-line-height:1.5em;
-padding:1em;
-margin:auto;
-max-width:80em;
-background:#fefefe;
-}
 
-a{ color: #0645ad; text-decoration:none;}
-a:visited{ color: #0b0080; }
-a:hover{ color: #06e; }
-a:active{ color:#faa700; }
-a:focus{ outline: thin dotted; }
-a:hover, a:active{ outline: 0; }
+    main { max-width: 1040px; margin: 0 auto; padding: 28px 20px 40px; }
+    header.page h1 { font-size: 32px; font-weight: 700; margin: 8px 0 6px; letter-spacing: -.01em; }
+    header.page p { margin: 0; color: var(--muted); }
+    .back { font-size: 14px; color: var(--muted); }
+    .back:hover { color: var(--accent); text-decoration: none; }
 
-::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
-::selection{background:rgba(255,255,0,0.3);color:#000}
+    .toolbar { display: flex; gap: 12px; align-items: center; margin: 22px 0 18px; flex-wrap: wrap; }
+    .toolbar input {
+      flex: 1; min-width: 220px;
+      padding: 10px 14px; font-size: 15px;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--card); color: var(--text); outline: none;
+    }
+    .toolbar input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .toolbar .count { color: var(--muted); font-size: 14px; }
 
-a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
-a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+    .pub {
+      display: flex; gap: 22px; align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border); border-radius: 14px;
+      padding: 18px; margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s ease, transform .2s ease;
+    }
+    .pub:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+    .pub.hidden { display: none; }
 
-p{
-margin:1em 0;
-}
+    .thumb { flex: 0 0 250px; display: flex; gap: 4px; }
+    .thumb img {
+      width: 100%; height: auto; display: block;
+      border-radius: 8px; border: 1px solid var(--border); background: #fff;
+    }
+    .thumb.multi img { width: calc(50% - 2px); }
 
-img{
-max-width:100%;
-}
+    .info { flex: 1; min-width: 0; }
+    .title { font-size: 17px; font-weight: 600; line-height: 1.35; margin: 0 0 6px; color: var(--text); }
+    .tag {
+      display: inline-block; vertical-align: 2px; margin-left: 6px;
+      font-size: 11.5px; font-weight: 600; letter-spacing: .02em;
+      padding: 2px 8px; border-radius: 999px;
+      background: var(--accent-soft); color: var(--accent); white-space: nowrap;
+    }
+    .highlight {
+      display: inline-block; margin: 2px 0 6px;
+      font-size: 13.5px; padding: 3px 10px; border-radius: 8px;
+      background: var(--hl-soft); color: var(--text);
+    }
+    .highlight .hl, .links .hl { color: var(--hl); font-weight: 700; }
+    .highlight .sep { margin: 0 6px; color: var(--muted); }
+    .authors { font-size: 14.5px; margin: 2px 0; }
+    .authors .me { font-weight: 700; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+    .venue { font-size: 14px; color: var(--muted); font-style: italic; }
+    .venue b { font-style: normal; color: var(--text); }
 
-h1,h2,h3,h4,h5,h6{
-font-weight:normal;
-color:#111;
-line-height:1em;
-}
-h4,h5,h6{ font-weight: bold; }
-h1{ font-size:2.5em; }
-h2{ font-size:2em; }
-h3{ font-size:1.5em; }
-h4{ font-size:1.2em; }
-h5{ font-size:1em; }
-h6{ font-size:0.9em; }
+    .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
+    .btn {
+      font-size: 13px; padding: 3px 11px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--text); background: transparent;
+      transition: all .15s ease;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); text-decoration: none; }
+    .news { font-size: 13px; color: var(--muted); }
 
-blockquote{
-color:#666666;
-margin:0;
-padding-left: 3em;
-border-left: 0.5em #EEE solid;
-}
-hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
-pre, code, kbd, samp { color: #000; font-family: monospace, monospace; _font-family: 'courier new', monospace; font-size: 0.98em; }
-pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+    .empty { display: none; text-align: center; color: var(--muted); padding: 40px 0; }
 
-b, strong { font-weight: bold; }
+    footer {
+      text-align: center; color: var(--muted); font-style: italic; font-size: 14px;
+      padding: 24px 20px 40px; border-top: 1px solid var(--border); max-width: 1040px; margin: 0 auto;
+    }
 
-dfn { font-style: italic; }
+    #toTop {
+      position: fixed; right: 20px; bottom: 20px; width: 40px; height: 40px;
+      border-radius: 50%; border: 1px solid var(--border); background: var(--card); color: var(--text);
+      box-shadow: var(--shadow-hover); cursor: pointer; font-size: 18px;
+      opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; }
 
-ins { background: #ff9; color: #000; text-decoration: none; }
+    @media (max-width: 700px) {
+      .pub { flex-direction: column; gap: 14px; padding: 14px; }
+      .thumb { flex: none; width: 100%; max-width: 420px; }
+      header.page h1 { font-size: 26px; }
+    }
 
-mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+    @media print {
+      body { background: #fff; }
+      .pub { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
 
-sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
-sup { top: -0.5em; }
-sub { bottom: -0.25em; }
+<main>
+  <header class="page">
+    <a class="back" href="https://yijunmaverick.github.io/">← Home</a>
+    <h1>Selected Publications</h1>
+    <p>Full list on <a href="https://scholar.google.com/citations?user=nrsWSt4AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>.</p>
+  </header>
 
-ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
-/*li p:last-child { margin:0 }*/
-li p:last-child { margin:0.8em }
-dd { margin: 0 0 0 2em; }
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="Search by title, author, venue or year…" aria-label="Search publications">
+    <span class="count" id="count">46 papers</span>
+  </div>
 
-img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+  <section id="pubs">
 
-table { border-collapse: collapse; border-spacing: 0; }
-td { vertical-align: top; }
-
-@media only screen and (min-width: 480px) {
-body{font-size:14px;}
-}
-
-@media only screen and (min-width: 768px) {
-body{font-size:16px;}
-}
-
-@media print {
-  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
-  body{font-size:12pt; max-width:100%;}
-  a, a:visited { text-decoration: underline; }
-  hr { height: 1px; border:0; border-bottom:1px solid black; }
-  a[href]:after { content: " (" attr(href) ")"; }
-  abbr[title]:after { content: " (" attr(title) ")"; }
-  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
-  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
-  tr, img { page-break-inside: avoid; }
-  img { max-width: 100% !important; }
-  @page :left { margin: 15mm 20mm 15mm 10mm; }
-  @page :right { margin: 15mm 10mm 15mm 20mm; }
-  p, h2, h3 { orphans: 3; widows: 3; }
-  h2, h3 { page-break-after: avoid; }
-}
-</style></head>
-
-<p align=right>【<strong><a href="https://yijunmaverick.github.io/">HOME</a></strong>】<!--&nbsp;&nbsp; 【<strong><a href="https://www.linkedin.com/in/yijun-li-1117a9132/">LINKEDIN</a></strong>】-->
-</p>
-
-<hr>
-<body marginheight="0"><h1>Selected Publications</h1>
-<p><a href="https://scholar.google.com/citations?user=nrsWSt4AAAAJ&hl=en">(Google scholar)</a></p>
-<hr>
-
-<!--   
-<p><br></p>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_t2v_rgba.png" alt="TransPixeler: Advancing Text-to-Video Generation with Transparency" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">TransPixeler: Advancing Text-to-Video Generation with Transparency <span class="tag">CVPR 2025</span></h3>
+        <div class="highlight"><strong class="hl">Shipped</strong> in Firefly (originally named <strong class="hl">Transpixar</strong>)</div>
+        <div class="authors">Luozhou Wang, <span class="me">Yijun Li</span>, Zhifei Chen, Jui-Hsien Wang, Zhifei Zhang, He Zhang, Zhe Lin, Ying-Cong Chen</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://wileewang.github.io/TransPixar/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2501.03006" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/wileewang/TransPixar" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="https://huggingface.co/spaces/wileewang/TransPixar" target="_blank" rel="noopener">Demo</a>
+          <span class="news">News: <a href="https://venturebeat.com/ai/smoke-reflections-and-portals-adobes-transpixar-takes-ai-vfx-to-the-next-level/">VentureBeat</a>, <a href="https://bisckut.com/adobes-new-transpixar-ai-is-here-to-transform-the-vfx-game/">Bisckut</a>, <a href="https://www.creativebloq.com/entertainment/vfx/adobe-just-stealth-released-a-game-changing-ai-app-for-vfx">CreativeBloq</a></span>
+          <a class="btn" href="https://x.com/search?q=TransPixar&src=recent_search_click" target="_blank" rel="noopener">Twitter</a>
+          <a class="btn" href="https://www.reddit.com/r/StableDiffusion/comments/1hx0l2t/transpixar_a_new_generative_model_that_preserves/" target="_blank" rel="noopener">Reddit</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_omnixref.png" alt="OmniXRef: A Unified Framework for Multimodal Multi-Reference Video Editing" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">OmniXRef: A Unified Framework for Multimodal Multi-Reference Video Editing <span class="tag">arXiv 2026</span></h3>
+        <div class="authors">Xiaoyan Cong, Tianyu Wang, Hyeonho Jeong, Zhifei Zhang, Yuqian Zhou, <span class="me">Yijun Li</span>, Shaoteng Liu, Zhe Lin, Srinath Sridhar, Soo Ye Kim</div>
+        <div class="venue">Preprint, 2026</div>
+        <div class="links">
+          <a class="btn" href="https://oliver-cong02.github.io/OmniXRef.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2610.22744" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_tokendial.gif" alt="TokenDial: Continuous Attribute Control in Text-to-Video via Spatiotemporal Token Offsets" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">TokenDial: Continuous Attribute Control in Text-to-Video via Spatiotemporal Token Offsets <span class="tag">SIGGRAPH Asia 2026</span></h3>
+        <div class="authors">Zhixuan Liu, Peter Schaldenbrand, <span class="me">Yijun Li</span>, Long Mai, Aniruddha Mahapatra, Cusuh Ham, Jean Oh, Jui-Hsien Wang</div>
+        <div class="venue">ACM Transactions on Graphics (<b>SIGGRAPH Asia</b>), 2026</div>
+        <div class="links">
+          <a class="btn" href="https://tokendial.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2603.27520" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/eccv26_diffusibility.png" alt="On the Diffusibility of High-Dimensional Latents" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">On the Diffusibility of High-Dimensional Latents <span class="tag">ECCV 2026</span></h3>
+        <div class="authors">Chao Feng, Zhiyang Xu, Bowei Chen, Yuanjun Xiong, Xiyao Wang, Jui-Hsien Wang, Richard Zhang, Zhe Lin, Andrew Owens, <span class="me">Yijun Li</span></div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2026</div>
+        <div class="links">
+          <a class="btn" href="https://cfeng16.github.io/on_the_diffusibility/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://cfeng16.github.io/on_the_diffusibility/assets/paper.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/eccv26_stylize.png" alt="Learning to Stylize by Learning to Destylize: A Scalable Paradigm for Supervised Style Transfer" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Learning to Stylize by Learning to Destylize: A Scalable Paradigm for Supervised Style Transfer <span class="tag">ECCV 2026</span></h3>
+        <div class="authors">Ye Wang, Zili Yi, Yibo Zhang, Peng Zheng, Xuping Xie, Jiang Lin, <span class="me">Yijun Li</span>, Yilin Wang, Rui Ma</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2026</div>
+        <div class="links">
+          <a class="btn" href="https://wangyephd.github.io/projects/DeStyle/index.html" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/html/2509.05970v2" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_lasagna.png" alt="Controllable Layered Image Generation for Real-World Editing" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Controllable Layered Image Generation for Real-World Editing <span class="tag">arXiv 2026</span></h3>
+        <div class="authors">Jinrui Yang, Qing Liu, <span class="me">Yijun Li</span>, Mengwei Ren, Letian Zhang, Zhe Lin, Cihang Xie, Yuyin Zhou</div>
+        <div class="venue">Preprint, 2026</div>
+        <div class="links">
+          <a class="btn" href="https://rayjryang.github.io/LASAGNA-Page/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2601.15507" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_hbridge.png" alt="HBridge: H-Shape Bridging of Heterogeneous Experts for Unified Multimodal Understanding and Generation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">HBridge: H-Shape Bridging of Heterogeneous Experts for Unified Multimodal Understanding and Generation <span class="tag">CVPR 2026</span></h3>
+        <div class="authors">Xiang Wang, Zhifei Zhang, He Zhang, Zhe Lin, Yuqian Zhou, Qing Liu, Shiwei Zhang, <span class="me">Yijun Li</span>, Shaoteng Liu, Haitian Zheng, Jason Kuen, Yuehuan Wang, Changxin Gao, Nong Sang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/abs/2511.20520" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_editverse.png" alt="EditVerse: Unifying Image and Video Editing and Generation with In-Context Learning" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">EditVerse: Unifying Image and Video Editing and Generation with In-Context Learning <span class="tag">ICLR 2026</span></h3>
+        <div class="highlight"><strong class="hl">Oral</strong><span class="sep">·</span><strong class="hl">Shipped</strong> in Firefly (Video-to-Video)</div>
+        <div class="authors">Xuan Ju, Tianyu Wang, Yuqian Zhou, He Zhang, Qing Liu, Nanxuan Zhao, Zhifei Zhang, <span class="me">Yijun Li</span>, Yuanhao Cai, Shaoteng Liu, Daniil Pakhomov, Zhe Lin, Soo Ye Kim, Qiang Xu</div>
+        <div class="venue">International Conference on Learning Representations (<b>ICLR</b>), 2026</div>
+        <div class="links">
+          <a class="btn" href="http://editverse.s3-website-us-east-1.amazonaws.com/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2509.20360" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2026">
+      <div class="thumb"><img src="quickview/arxiv_layerfusion.png" alt="LayerFusion: Harmonized Multi-Layer Text-to-Image Generation with Generative Priors" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">LayerFusion: Harmonized Multi-Layer Text-to-Image Generation with Generative Priors <span class="tag">CVPR 2026</span></h3>
+        <div class="authors">Yusuf Dalva, <span class="me">Yijun Li</span>, Qing Liu, Nanxuan Zhao, Jianming Zhang, Zhe Lin, Pinar Yanardag</div>
+        <div class="venue"><a href="https://space-in-vision-language-embodied-ai.github.io/">SpaVLE</a> workshop @ Neural Information Processing Systems at (<b>NeurIPS</b>), 2025</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b> findings), 2026</div>
+        <div class="links">
+          <a class="btn" href="https://layerfusion.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2412.04460" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_xfusion.png" alt="X-Fusion: Introducing New Modality to Frozen Large Language Models" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">X-Fusion: Introducing New Modality to Frozen Large Language Models <span class="tag">ICCV 2025</span></h3>
+        <div class="highlight"><strong class="hl">Best Paper</strong> @ CVPR 2025 T4V Workshop</div>
+        <div class="authors">Sicheng Mo, Thao Nguyen, Xun Huang, Siddharth Srinivasan Iyer, <span class="me">Yijun Li</span>, Yuchen Liu, Abhishek Tandon, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</div>
+        <div class="venue">IEEE International Conference on Computer Vision (<b>ICCV</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://sichengmo.github.io/XFusion/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2504.20996" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_sgadapter.png" alt="SG-Adapter: Enhancing Text-to-Image Generation with Scene Graph Guidance" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">SG-Adapter: Enhancing Text-to-Image Generation with Scene Graph Guidance <span class="tag">ICCV 2025</span></h3>
+        <div class="authors">Guibao Shen, Luozhou Wang, Jiantao Lin, Wenhang Ge, Chaozhe Zhang, Xin Tao, Yuan Zhang, Pengfei Wan, Zhongyuan Wang, Guangyong Chen, <span class="me">Yijun Li</span>, Ying-Cong Chen</div>
+        <div class="venue">IEEE International Conference on Computer Vision (<b>ICCV</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/abs/2405.15321" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_motioninversion.png" alt="Motion Inversion for Video Customization" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Motion Inversion for Video Customization <span class="tag">SIGGRAPH 2025</span></h3>
+        <div class="authors">Luozhou Wang, Ziyang Mai, Guibao Shen, Yixun Liang, Xin Tao, Pengfei Wan, Di Zhang, <span class="me">Yijun Li</span>, Ying-Cong Chen</div>
+        <div class="venue">ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://wileewang.github.io/MotionInversion/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2403.20193" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/EnVision-Research/MotionInversion" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_layerdecompose.png" alt="Generative Image Layer Decomposition with Visual Effects" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Generative Image Layer Decomposition with Visual Effects <span class="tag">CVPR 2025</span></h3>
+        <div class="authors">Jinrui Yang, Qing Liu, <span class="me">Yijun Li</span>, Soo Ye Kim, Daniil Pakhomov, Mengwei Ren, Jianming Zhang, Zhe Lin, Cihang Xie, Yuyin Zhou</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://rayjryang.github.io/LayerDecomp/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2411.17864" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_genprop.png" alt="Generative Video Propagation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Generative Video Propagation <span class="tag">CVPR 2025</span></h3>
+        <div class="highlight"><strong class="hl">Shipped</strong> in Firefly (Frame Edit)</div>
+        <div class="authors">Shaoteng Liu, Tianyu Wang, Jui-Hsien Wang, Qing Liu, Zhifei Zhang, Joon-Young Lee, <span class="me">Yijun Li</span>, Bei Yu, Zhe Lin, Soo Ye Kim, Jiaya Jia</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://genprop.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2412.19761" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2025">
+      <div class="thumb"><img src="quickview/arxiv_unireal.png" alt="UniReal: Universal Image Generation and Editing via Learning Real-world Dynamics" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">UniReal: Universal Image Generation and Editing via Learning Real-world Dynamics <span class="tag">CVPR 2025</span></h3>
+        <div class="authors">Xi Chen, Zhifei Zhang, He Zhang, Yuqian Zhou, Soo Ye Kim, Qing Liu, <span class="me">Yijun Li</span>, Jianming Zhang, Nanxuan Zhao, Yilin Wang, Hui Ding, Zhe Lin, Hengshuang Zhao</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</div>
+        <div class="links">
+          <a class="btn" href="https://xavierchen34.github.io/UniReal-Page/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2412.07774" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/eccv_rdd.png" alt="Removing Distributional Discrepancies in Captions Improves Image-Text Alignment" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Removing Distributional Discrepancies in Captions Improves Image-Text Alignment <span class="tag">ECCV 2024</span></h3>
+        <div class="authors">Yuheng Li, Haotian Liu, Mu Cai, <span class="me">Yijun Li</span>, Eli Shechtman, Zhe Lin, Yong Jae Lee, Krishna Kumar Singh</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://yuheng-li.github.io/LLaVA-score/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/03192.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/arxiv_DandR.png" alt="Text-Anchored Score Composition: Tackling Condition Misalignment in T2I Diffusion Models" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Text-Anchored Score Composition: Tackling Condition Misalignment in T2I Diffusion Models <span class="tag">ECCV 2024</span></h3>
+        <div class="authors">Luozhou Wang, Guibao Shen, Wenhang Ge, Guangyong Chen, <span class="me">Yijun Li</span>, Ying-Cong Chen</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://wileewang.github.io/Decompose-and-Realign/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2306.14408" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/EnVision-Research/Decompose-and-Realign" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/arxiv_SepandEnhance.png" alt="Separate-and-Enhance: Compositional Finetuning for Text-to-Image Diffusion Models" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Separate-and-Enhance: Compositional Finetuning for Text-to-Image Diffusion Models <span class="tag">SIGGRAPH 2024</span></h3>
+        <div class="authors">Zhipeng Bao, <span class="me">Yijun Li</span>, Krishna Kumar Singh, Yu-Xiong Wang, Martial Hebert</div>
+        <div class="venue">ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://zpbao.github.io/projects/SepEn/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://camps.aptaracorp.com/ACM_PMS/PMS/ACM/SIGGRAPHCONFERENCEPAPERS24/133/d60517f0-feed-11ee-8182-16bb50361d1f/OUT/siggraphconferencepapers24-133.html" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/adobe/SeperateAndEnhance" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/cvpr_atedm.png" alt="AT-EDM: Attention-Driven Training-Free Efficiency Enhancement of Diffusion Models" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">AT-EDM: Attention-Driven Training-Free Efficiency Enhancement of Diffusion Models <span class="tag">CVPR 2024</span></h3>
+        <div class="authors">Hongjie Wang, Difan Liu, Yan Kang, <span class="me">Yijun Li</span>, Zhe Lin, Niraj K. Jha, Yuchen Liu</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://atedm.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2405.05252" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/cvpr_magick.png" alt="MAGICK: A Large-scale Captioned Dataset from Matting Generated Images using Chroma Keying" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">MAGICK: A Large-scale Captioned Dataset from Matting Generated Images using Chroma Keying <span class="tag">CVPR 2024</span></h3>
+        <div class="authors">Ryan D. Burgert, Brian L. Price, Jason Kuen, <span class="me">Yijun Li</span>, Michael S. Ryoo</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://ryanndagreat.github.io/MAGICK/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://ryanndagreat.github.io/MAGICK/CVPR_Final_No_Appendix.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/wacv_multimodal.png" alt="Consistent Multimodal Generation via A Unified GAN Framework" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Consistent Multimodal Generation via A Unified GAN Framework <span class="tag">WACV 2024</span></h3>
+        <div class="authors">Zhen Zhu, <span class="me">Yijun Li</span>, Weijie Lyu, Krishna Kumar Singh, Zhixin Shu, Sören Pirk, Derek Hoiem</div>
+        <div class="venue">IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://openaccess.thecvf.com/content/WACV2024/papers/Zhu_Consistent_Multimodal_Generation_via_a_Unified_GAN_Framework_WACV_2024_paper.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+<!--
+    <article class="pub" data-year="2024">
+      <div class="thumb"><img src="quickview/wacv_p2d2.png" alt="P2D: Plug and Play Discriminator for accelerating GAN frameworks" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">P2D: Plug and Play Discriminator for accelerating GAN frameworks <span class="tag">WACV 2024</span></h3>
+        <div class="authors">Min Jin Chong, Krishna Kumar Singh, <span class="me">Yijun Li</span>, Jingwan Lu, David Forsyth</div>
+        <div class="venue">IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2024</div>
+        <div class="links">
+          <a class="btn" href="https://openaccess.thecvf.com/content/WACV2024/papers/Chong_P2D_Plug_and_Play_Discriminator_for_Accelerating_GAN_Frameworks_WACV_2024_paper.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
 -->
-
-<p>
- <img src="quickview/arxiv_t2v_rgba.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">TransPixeler: Advancing Text-to-Video Generation with Transparency</font></span>
-<br> 
-<br>
-    <span class="ban2"> &nbsp; <font color="red"><b>Shipped</b></font> in Firefly (originally named <font color="red"><b>Transpixar</b></font>)</span>
- <br>
- <span class="ban2"> &nbsp; Luozhou Wang, <b>Yijun Li</b>, Zhifei Chen, Jui-Hsien Wang, Zhifei Zhang, He Zhang, Zhe Lin, Ying-Cong Chen</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://wileewang.github.io/TransPixar/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2501.03006">Paper</a>&nbsp; <a href="https://github.com/wileewang/TransPixar">Code</a>&nbsp; <a href="https://huggingface.co/spaces/wileewang/TransPixar">Demo</a>&nbsp; News (<a href="https://venturebeat.com/ai/smoke-reflections-and-portals-adobes-transpixar-takes-ai-vfx-to-the-next-level/">VentureBeat</a>, <a href="https://bisckut.com/adobes-new-transpixar-ai-is-here-to-transform-the-vfx-game/">Bisckut</a>, <a href="https://www.creativebloq.com/entertainment/vfx/adobe-just-stealth-released-a-game-changing-ai-app-for-vfx">CreativeBloq</a>)&nbsp; <a href="https://x.com/search?q=TransPixar&src=recent_search_click">Twitter</a>&nbsp; <a href="https://www.reddit.com/r/StableDiffusion/comments/1hx0l2t/transpixar_a_new_generative_model_that_preserves/">Reddit</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_omnixref.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">OmniXRef: A Unified Framework for Multimodal Multi-Reference Video Editing</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Xiaoyan Cong, Tianyu Wang, Hyeonho Jeong, Zhifei Zhang, Yuqian Zhou, <b>Yijun Li</b>, Shaoteng Liu, Zhe Lin, Srinath Sridhar, Soo Ye Kim</span>
- <br>
-    <span class="ban2"> &nbsp; Preprint, 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://oliver-cong02.github.io/OmniXRef.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2610.22744">Paper</a></span>
- <br>
-</p>  
-
-<p><br></p>
-    
-<p>
- <img src="quickview/arxiv_tokendial.gif" height="120" width="250" align="left"><span> &nbsp; <font size="4">TokenDial: Continuous Attribute Control in Text-to-Video via Spatiotemporal Token Offsets</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Zhixuan Liu, Peter Schaldenbrand, <b>Yijun Li</b>, Long Mai, Aniruddha Mahapatra, Cusuh Ham, Jean Oh, Jui-Hsien Wang</span>
- <br>
-    <span class="ban2"> &nbsp; ACM Transactions on Graphics (<b>SIGGRAPH Asia</b>), 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://tokendial.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2603.27520">Paper</a></span>
- <br>
-</p>  
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/eccv26_diffusibility.png" height="140" width="250" align="left"><span> &nbsp; <font size="4">On the Diffusibility of High-Dimensional Latents</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Chao Feng, Zhiyang Xu, Bowei Chen, Yuanjun Xiong, Xiyao Wang, Jui-Hsien Wang, Richard Zhang, Zhe Lin, Andrew Owens, <b>Yijun Li</b></span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://cfeng16.github.io/on_the_diffusibility/">Project</a>&nbsp; <a href="https://cfeng16.github.io/on_the_diffusibility/assets/paper.pdf">Paper</a></span>
- <br>
-</p>  
-
-
-<p><br></p>
-
-<p>
- <img src="quickview/eccv26_stylize.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Learning to Stylize by Learning to Destylize: A Scalable Paradigm for Supervised Style Transfer</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Ye Wang, Zili Yi, Yibo Zhang, Peng Zheng, Xuping Xie, Jiang Lin, <b>Yijun Li</b>, Yilin Wang, Rui Ma</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://wangyephd.github.io/projects/DeStyle/index.html">Project</a>&nbsp; <a href="https://arxiv.org/html/2509.05970v2">Paper</a></span>
- <br>
-</p>  
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_lasagna.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Controllable Layered Image Generation for Real-World Editing</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Jinrui Yang, Qing Liu, <b>Yijun Li</b>, Mengwei Ren, Letian Zhang, Zhe Lin, Cihang Xie, Yuyin Zhou</span>
- <br>
-    <span class="ban2"> &nbsp; Preprint, 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://rayjryang.github.io/LASAGNA-Page/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2601.15507">Paper</a></span>
- <br>
-</p> 
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_hbridge.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">HBridge: H-Shape Bridging of Heterogeneous Experts for Unified Multimodal Understanding and Generation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Xiang Wang, Zhifei Zhang, He Zhang, Zhe Lin, Yuqian Zhou, Qing Liu, Shiwei Zhang, <b>Yijun Li</b>, Shaoteng Liu, Haitian Zheng, Jason Kuen, Yuehuan Wang, Changxin Gao, Nong Sang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/abs/2511.20520">Paper</a></span>
- <br>
-</p>   
-
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_editverse.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">EditVerse: Unifying Image and Video Editing and Generation with In-Context Learning</font></span>
-<br> 
-<span class="ban2"> &nbsp; <font color="red"><b>Oral</b></font> &nbsp; <font color="red"><b>Shipped</b></font> in Firefly (Video-to-Video) &nbsp;</span>
-<br>
- <span class="ban2"> &nbsp; Xuan Ju, Tianyu Wang, Yuqian Zhou, He Zhang, Qing Liu, Nanxuan Zhao, Zhifei Zhang, <b>Yijun Li</b>, Yuanhao Cai, Shaoteng Liu, Daniil Pakhomov, Zhe Lin, Soo Ye Kim, Qiang Xu</span>
- <br>
-    <span class="ban2"> &nbsp; International Conference on Learning Representations (<b>ICLR</b>), 2026</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="http://editverse.s3-website-us-east-1.amazonaws.com/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2509.20360">Paper</a></span>
- <br>
-</p>   
-    
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_layerfusion.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">LayerFusion: Harmonized Multi-Layer Text-to-Image Generation with Generative Priors</font></span>
- <br>
- <span class="ban2"> &nbsp; Yusuf Dalva, <b>Yijun Li</b>, Qing Liu, Nanxuan Zhao, Jianming Zhang, Zhe Lin, Pinar Yanardag</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://space-in-vision-language-embodied-ai.github.io/">SpaVLE</a> workshop @ Neural Information Processing Systems at (<b>NeurIPS</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b> findings), 2026</span>
-<br>
-    <span class="ban2"> &nbsp; <a href="https://layerfusion.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2412.04460">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-  
-<p>
- <img src="quickview/arxiv_xfusion.png" height="170" width="250" align="left"><span> &nbsp; <font size="4">X-Fusion: Introducing New Modality to Frozen Large Language Models</font></span>
-<br> 
-<br>
-    <span class="ban2"> &nbsp; <font color="red"><b>Best Paper</b></font> @ CVPR 2025 T4V Workshop </span>
- <br>
- <span class="ban2"> &nbsp; Sicheng Mo, Thao Nguyen, Xun Huang, Siddharth Srinivasan Iyer, <b>Yijun Li</b>, Yuchen Liu, Abhishek Tandon, Eli Shechtman, Krishna Kumar Singh, Yong Jae Lee, Bolei Zhou, Yuheng Li</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE International Conference on Computer Vision (<b>ICCV</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://sichengmo.github.io/XFusion/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2504.20996">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-    
-<p>
- <img src="quickview/arxiv_sgadapter.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">SG-Adapter: Enhancing Text-to-Image Generation with Scene Graph Guidance</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Guibao Shen, Luozhou Wang, Jiantao Lin, Wenhang Ge, Chaozhe Zhang, Xin Tao, Yuan Zhang, Pengfei Wan, Zhongyuan Wang, Guangyong Chen, <b>Yijun Li</b>, Ying-Cong Chen</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE International Conference on Computer Vision (<b>ICCV</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/abs/2405.15321">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-    
-<p>
- <img src="quickview/arxiv_motioninversion.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Motion Inversion for Video Customization</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Luozhou Wang, Ziyang Mai, Guibao Shen, Yixun Liang, Xin Tao, Pengfei Wan, Di Zhang, <b>Yijun Li</b>, Ying-Cong Chen</span>
- <br>
-    <span class="ban2"> &nbsp; ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://wileewang.github.io/MotionInversion/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2403.20193">Paper</a>&nbsp; <a href="https://github.com/EnVision-Research/MotionInversion">Code</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_layerdecompose.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">Generative Image Layer Decomposition with Visual Effects</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Jinrui Yang, Qing Liu, <b>Yijun Li</b>, Soo Ye Kim, Daniil Pakhomov, Mengwei Ren, Jianming Zhang, Zhe Lin, Cihang Xie, Yuyin Zhou</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://rayjryang.github.io/LayerDecomp/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2411.17864">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_genprop.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">Generative Video Propagation</font></span>
- <br>
- <br>
-    <span class="ban2"> &nbsp; <font color="red"><b>Shipped</b></font> in Firefly (Frame Edit) &nbsp;</span>
- <br>
- <span class="ban2"> &nbsp; Shaoteng Liu, Tianyu Wang, Jui-Hsien Wang, Qing Liu, Zhifei Zhang, Joon-Young Lee, <b>Yijun Li</b>, Bei Yu, Zhe Lin, Soo Ye Kim, Jiaya Jia</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://genprop.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2412.19761">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-<p>
- <img src="quickview/arxiv_unireal.png" height="150" width="250" align="left"><span> &nbsp; <font size="4">UniReal: Universal Image Generation and Editing via Learning Real-world Dynamics</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Xi Chen, Zhifei Zhang, He Zhang, Yuqian Zhou, Soo Ye Kim, Qing Liu, <b>Yijun Li</b>, Jianming Zhang, Nanxuan Zhao, Yilin Wang, Hui Ding, Zhe Lin, Hengshuang Zhao</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2025</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://xavierchen34.github.io/UniReal-Page/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2412.07774">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/eccv_rdd.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Removing Distributional Discrepancies in Captions Improves Image-Text Alignment</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Yuheng Li, Haotian Liu, Mu Cai, <b>Yijun Li</b>, Eli Shechtman, Zhe Lin, Yong Jae Lee, Krishna Kumar Singh</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://yuheng-li.github.io/LLaVA-score/">Project</a>&nbsp; <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/03192.pdf">Paper</a></span>
- <br>
-</p>   
-    
-<p><br></p>
-
-
-<p>
- <img src="quickview/arxiv_DandR.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Text-Anchored Score Composition: Tackling Condition Misalignment in T2I Diffusion Models</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Luozhou Wang, Guibao Shen, Wenhang Ge, Guangyong Chen, <b>Yijun Li</b>, Ying-Cong Chen</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://wileewang.github.io/Decompose-and-Realign/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2306.14408">Paper</a>&nbsp; <a href="https://github.com/EnVision-Research/Decompose-and-Realign">Code</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/arxiv_SepandEnhance.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Separate-and-Enhance: Compositional Finetuning for Text-to-Image Diffusion Models</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Zhipeng Bao, <b>Yijun Li</b>, Krishna Kumar Singh, Yu-Xiong Wang, Martial Hebert</span>
- <br>
-    <span class="ban2"> &nbsp; ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://zpbao.github.io/projects/SepEn/">Project</a>&nbsp; <a href="https://camps.aptaracorp.com/ACM_PMS/PMS/ACM/SIGGRAPHCONFERENCEPAPERS24/133/d60517f0-feed-11ee-8182-16bb50361d1f/OUT/siggraphconferencepapers24-133.html">Paper</a>&nbsp; <a href="https://github.com/adobe/SeperateAndEnhance">Code</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/cvpr_atedm.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">AT-EDM: Attention-Driven Training-Free Efficiency Enhancement of Diffusion Models</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Hongjie Wang, Difan Liu, Yan Kang, <b>Yijun Li</b>, Zhe Lin, Niraj K. Jha, Yuchen Liu</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://atedm.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2405.05252">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/cvpr_magick.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">MAGICK: A Large-scale Captioned Dataset from Matting Generated Images using Chroma Keying</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Ryan D. Burgert, Brian L. Price, Jason Kuen, <b>Yijun Li</b>, Michael S. Ryoo</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://ryanndagreat.github.io/MAGICK/">Project</a>&nbsp; <a href="https://ryanndagreat.github.io/MAGICK/CVPR_Final_No_Appendix.pdf">Paper</a></span>
- <br>
-</p>   
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/wacv_multimodal.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Consistent Multimodal Generation via A Unified GAN Framework</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Zhen Zhu, <b>Yijun Li</b>, Weijie Lyu, Krishna Kumar Singh, Zhixin Shu, Sören Pirk, Derek Hoiem</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://openaccess.thecvf.com/content/WACV2024/papers/Zhu_Consistent_Multimodal_Generation_via_a_Unified_GAN_Framework_WACV_2024_paper.pdf">Paper</a></span>
- <br>
-</p>
-    
-<p><br></p>
-
-<!-- 
-<p>
- <img src="quickview/wacv_p2d2.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">P2D: Plug and Play Discriminator for accelerating GAN frameworks</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Min Jin Chong, Krishna Kumar Singh,  <b>Yijun Li</b>, Jingwan Lu, David Forsyth</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2024</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://openaccess.thecvf.com/content/WACV2024/papers/Chong_P2D_Plug_and_Play_Discriminator_for_Accelerating_GAN_Frameworks_WACV_2024_paper.pdf">Paper</a></span>
- <br>
-</p>
-    
-<p><br></p>
+    <article class="pub" data-year="2023">
+      <div class="thumb"><img src="quickview/iccv_caricature.png" alt="Cross-modal Latent Space Alignment for Image to Avatar Translation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Cross-modal Latent Space Alignment for Image to Avatar Translation <span class="tag">ICCV 2023</span></h3>
+        <div class="authors">Manuel Ladron de Guevara, Jose Echevarria, <span class="me">Yijun Li</span>, Yannick Hold-Geoffroy, Cameron Smith, Daichi Ito</div>
+        <div class="venue">IEEE International Conference on Computer Vision (<b>ICCV</b>), 2023</div>
+        <div class="links">
+          <a class="btn" href="https://www.dropbox.com/scl/fi/ih0hfro5iwsde12jwybqc/ICCV23_manuel_caricature.pdf?rlkey=sqv3j0pwjdl35i94pm56yyzyr&dl=0" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://www.dropbox.com/scl/fi/adx8jcmac88oyna29ja4s/ICCV23_manuel_caricature_supp.pdf?rlkey=0mn83je1cv7anzpjmqv8f2oc8&dl=0" target="_blank" rel="noopener">Supplementary</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2023">
+      <div class="thumb"><img src="quickview/siggraph_zerop2p.png" alt="Zero-shot Image-to-Image Translation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Zero-shot Image-to-Image Translation <span class="tag">SIGGRAPH 2023</span></h3>
+        <div class="authors">Gaurav Parmar, Krishna Kumar Singh, Richard Zhang, <span class="me">Yijun Li</span>, Jingwan Lu, Jun-Yan Zhu</div>
+        <div class="venue">ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2023</div>
+        <div class="links">
+          <a class="btn" href="https://pix2pixzero.github.io/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2302.03027" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/pix2pixzero/pix2pix-zero" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2022">
+      <div class="thumb"><img src="quickview/eccv_inpaintingCL.png" alt="Contrastive Learning for Diverse Disentangled Foreground Generation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Contrastive Learning for Diverse Disentangled Foreground Generation <span class="tag">ECCV 2022</span></h3>
+        <div class="authors">Yuheng Li, <span class="me">Yijun Li</span>, Jingwan Lu, Eli Shechtman, Yong Jae Lee, Krishna Kumar Singh</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2022</div>
+        <div class="links">
+          <a class="btn" href="https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136760313.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2022">
+      <div class="thumb"><img src="quickview/eccv_3dfmgan.png" alt="3D-FM GAN: Towards 3D-Controllable Face Manipulation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">3D-FM GAN: Towards 3D-Controllable Face Manipulation <span class="tag">ECCV 2022</span></h3>
+        <div class="authors">Yuchen Liu, Zhixin Shu, <span class="me">Yijun Li</span>, Zhe Lin, Richard Zhang, S.Y. Kung</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2022</div>
+        <div class="links">
+          <a class="btn" href="https://lychenyoko.github.io/3D-FM-GAN-Webpage/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2208.11257" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+<!--
+    <article class="pub" data-year="2022">
+      <div class="thumb"><img src="quickview/siggraph_clip.png" alt="A Fast Text-Driven Approach for Generating Artistic Content" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">A Fast Text-Driven Approach for Generating Artistic Content <span class="tag">SIGGRAPH 2022</span></h3>
+        <div class="authors">Marian Lupascu, Ryan Murdock, Ionut Mironica, <span class="me">Yijun Li</span></div>
+        <div class="venue">ACM Transactions on Graphics (<b>SIGGRAPH</b>) Posters, 2022</div>
+        <div class="links">
+          <a class="btn" href="https://dl.acm.org/doi/10.1145/3532719.3543208" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://www.youtube.com/watch?v=MpOLYviDFck" target="_blank" rel="noopener">Video</a>
+        </div>
+      </div>
+    </article>
 -->
+    <article class="pub" data-year="2022">
+      <div class="thumb"><img src="quickview/cvpr_ganinversion.png" alt="Spatially-Adaptive Multilayer Selection for GAN Inversion and Editing" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Spatially-Adaptive Multilayer Selection for GAN Inversion and Editing <span class="tag">CVPR 2022</span></h3>
+        <div class="authors">Gaurav Parmar, <span class="me">Yijun Li</span>, Jingwan Lu, Richard Zhang, Jun-Yan Zhu, Krishna Kumar Singh</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2022</div>
+        <div class="links">
+          <a class="btn" href="https://www.cs.cmu.edu/~SAMInversion/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2206.08357" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/adobe-research/sam_inversion" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/iccv_collagegan1.png" alt="Collaging Class-specific GANs for Semantic Image Synthesis" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Collaging Class-specific GANs for Semantic Image Synthesis <span class="tag">ICCV 2021</span></h3>
+        <div class="authors">Yuheng Li, <span class="me">Yijun Li</span>, Jingwan Lu, Eli Shechtman, Yong Jae Lee, Krishna Kumar Singh</div>
+        <div class="venue">IEEE International Conference on Computer Vision (<b>ICCV</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://yuheng-li.github.io/CollageGAN/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://openaccess.thecvf.com/content/ICCV2021/papers/Li_Collaging_Class-Specific_GANs_for_Semantic_Image_Synthesis_ICCV_2021_paper.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/ijcv_caricature2.png" alt="Learning to Caricature via Semantic Shape Transform" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Learning to Caricature via Semantic Shape Transform <span class="tag">IJCV 2021</span></h3>
+        <div class="authors">Wenqing Chu, Wei-Chih Hung, Yi-Hsuan Tsai, Yu-Ting Chang, <span class="me">Yijun Li</span>, Deng Cai, Ming-Hsuan Yang</div>
+        <div class="venue">International Journal of Computer Vision (<b>IJCV</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/abs/2008.05090" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/wenqingchu/Semantic-CariGANs" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/cvpr_gan2gan.png" alt="Few-shot Image Generation via Cross-domain Correspondence" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Few-shot Image Generation via Cross-domain Correspondence <span class="tag">CVPR 2021</span></h3>
+        <div class="authors">Utkarsh Ojha, <span class="me">Yijun Li</span>, Jingwan Lu, Alexei A. Efros, Yong Jae Lee, Eli Shechtman, Richard Zhang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://utkarshojha.github.io/few-shot-gan-adaptation/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2104.06820" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/utkarshojha/few-shot-gan-adaptation" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/cvpr_swag.png" alt="Rethinking and Improving the Robustness of Image Style Transfer" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Rethinking and Improving the Robustness of Image Style Transfer <span class="tag">CVPR 2021</span></h3>
+        <div class="highlight"><strong class="hl">Oral</strong><span class="sep">·</span><a class="hl" href="http://cvpr2021.thecvf.com/node/290">Best Paper Candidate</a></div>
+        <div class="authors">Pei Wang, <span class="me">Yijun Li</span>, Nuno Vasconcelos</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/abs/2104.05623" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/peiwang062/swag" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/cvpr_imagine.png" alt="IMAGINE: Image Synthesis by Image-Guided Model Inversion" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">IMAGINE: Image Synthesis by Image-Guided Model Inversion <span class="tag">CVPR 2021</span></h3>
+        <div class="authors">Pei Wang, <span class="me">Yijun Li</span>, Krishna Kumar Singh, Jingwan Lu, Nuno Vasconcelos</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/abs/2104.05895" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/cvpr_gan_compression1.png" alt="Content-Aware GAN Compression" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Content-Aware GAN Compression <span class="tag">CVPR 2021</span></h3>
+        <div class="authors">Yuchen Liu, Zhixin Shu, <span class="me">Yijun Li</span>, Zhe Lin, Federico Perazzi, S.Y. Kung</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://lychenyoko.github.io/content_aware_gan_compression/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://arxiv.org/abs/2104.02244" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/lychenyoko/content-aware-gan-compression" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2021">
+      <div class="thumb"><img src="quickview/wacv_extrapolation.png" alt="Controllable and Progressive Image Extrapolation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Controllable and Progressive Image Extrapolation <span class="tag">WACV 2021</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Lu Jiang, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2021</div>
+        <div class="links">
+          <a class="btn" href="https://openaccess.thecvf.com/content/WACV2021/papers/Li_Controllable_and_Progressive_Image_Extrapolation_WACV_2021_paper.pdf" target="_blank" rel="noopener">Paper</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2020">
+      <div class="thumb"><img src="quickview/nips_ewc.png" alt="Few-shot Image Generation with Elastic Weight Consolidation" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Few-shot Image Generation with Elastic Weight Consolidation <span class="tag">NeurIPS 2020</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Richard Zhang, Jingwan Lu, Eli Shechtman</div>
+        <div class="venue">Advances in Neural Information Processing Systems (<b>NeurIPS</b>), 2020</div>
+        <div class="links">
+          <a class="btn" href="https://yijunmaverick.github.io/publications/ewc/" target="_blank" rel="noopener">Project</a>
+          <a class="btn" href="https://papers.nips.cc/paper/2020/file/b6d767d2f8ed5d21a44b0e5886680cb9-Paper.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://proceedings.neurips.cc/paper/2020/file/b6d767d2f8ed5d21a44b0e5886680cb9-Supplemental.pdf" target="_blank" rel="noopener">Supplemental</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2020">
+      <div class="thumb"><img src="quickview/eccv_artisticflow.png" alt="Modeling Artistic Workflows for Image Generation and Editing" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Modeling Artistic Workflows for Image Generation and Editing <span class="tag">ECCV 2020</span></h3>
+        <div class="authors">Hung-Yu Tseng, Matthew Fisher, Jingwan Lu, <span class="me">Yijun Li</span>, Vladimir Kim, Ming-Hsuan Yang</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2020</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/2007.07238.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/hytseng0509/ArtEditing" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2020">
+      <div class="thumb"><img src="quickview/cvpr_distill.png" alt="Collaborative Distillation for Ultra-Resolution Universal Style Transfer" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Collaborative Distillation for Ultra-Resolution Universal Style Transfer <span class="tag">CVPR 2020</span></h3>
+        <div class="authors">Huan Wang, <span class="me">Yijun Li</span>, Yuehai Wang, Haoji Hu, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2020</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/2003.08436.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/mingsun-tse/collaborative-distillation" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2020">
+      <div class="thumb"><img src="quickview/wacv_videostyle.gif" alt="Fast Video Multi-Style Transfer" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Fast Video Multi-Style Transfer <span class="tag">WACV 2020</span></h3>
+        <div class="authors">Wei Gao, <span class="me">Yijun Li</span>, Yihang Yin, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2020</div>
+        <div class="links">
+          <a class="btn" href="http://openaccess.thecvf.com/content_WACV_2020/papers/Gao_Fast_Video_Multi-Style_Transfer_WACV_2020_paper.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/SaberArthurus/Fast-Multi-Video-Style-Transfer" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2019">
+      <div class="thumb"><img src="quickview/cvpr_pencil.png" alt="Im2Pencil: Controllable Pencil Illustration from Photographs" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Im2Pencil: Controllable Pencil Illustration from Photographs <span class="tag">CVPR 2019</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Chen Fang, Aaron Hertzmann, Eli Shechtman, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2019</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/1903.08682.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/Im2Pencil" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2018">
+      <div class="thumb"><img src="quickview/pami_djf.png" alt="Joint Image Filtering with Deep Convolutional Networks" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Joint Image Filtering with Deep Convolutional Networks <span class="tag">TPAMI 2018</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Jia-Bin Huang, Narendra Ahuja, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Transactions on Pattern Analysis and Machine Intelligence (<b>TPAMI</b>), 2018</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/1710.04200.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/DeepJointFilter" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2018">
+      <div class="thumb"><img src="quickview/eccv_photowct1.png" alt="A Closed-form Solution to Photorealistic Image Stylization" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">A Closed-form Solution to Photorealistic Image Stylization <span class="tag">ECCV 2018</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Ming-Yu Liu, Xueting Li, Ming-Hsuan Yang, Jan Kautz</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2018</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/1802.06474.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/NVIDIA/FastPhotoStyle" target="_blank" rel="noopener">Code (<strong class="hl">11k stars</strong>)</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2018">
+      <div class="thumb multi"><img src="quickview/flag.png" alt="Flow-Grounded Spatial-Temporal Video Prediction from Still Images" loading="lazy"><img src="quickview/flag_pred16.gif" alt="Flow-Grounded Spatial-Temporal Video Prediction from Still Images" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Flow-Grounded Spatial-Temporal Video Prediction from Still Images <span class="tag">ECCV 2018</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2018</div>
+        <div class="links">
+          <a class="btn" href="https://arxiv.org/pdf/1807.09755.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/FlowGrounded-VideoPrediction" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2017">
+      <div class="thumb"><img src="quickview/nips_wct.png" alt="Universal Style Transfer via Feature Transforms" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Universal Style Transfer via Feature Transforms <span class="tag">NIPS 2017</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</div>
+        <div class="venue">Advances in Neural Information Processing Systems (<b>NIPS</b>), 2017</div>
+        <div class="links">
+          <a class="btn" href="http://papers.nips.cc/paper/6642-universal-style-transfer-via-feature-transforms.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/UniversalStyleTransfer" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="https://www.youtube.com/watch?v=v1oWke0Qf1E" target="_blank" rel="noopener">Two Minute Papers</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2017">
+      <div class="thumb"><img src="quickview/cvpr_dts.png" alt="Diversified Texture Synthesis with Feed-forward Networks" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Diversified Texture Synthesis with Feed-forward Networks <span class="tag">CVPR 2017</span></h3>
+        <div class="highlight"><strong class="hl">Spotlight</strong></div>
+        <div class="authors"><span class="me">Yijun Li</span>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2017</div>
+        <div class="links">
+          <a class="btn" href="https://drive.google.com/file/d/1tPYy-cY3-ij3ch3V4LFvv24YoXrmOuTH/view" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/MultiTextureSynthesis" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="https://sites.google.com/site/yijunlimaverick/texture-synthesis" target="_blank" rel="noopener">Project</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2017">
+      <div class="thumb"><img src="quickview/cvpr_face.png" alt="Generative Face Completion" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Generative Face Completion <span class="tag">CVPR 2017</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Sifei Liu, Jimei Yang, Ming-Hsuan Yang</div>
+        <div class="venue">IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2017</div>
+        <div class="links">
+          <a class="btn" href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Li_Generative_Face_Completion_CVPR_2017_paper.pdf" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/GenerativeFaceCompletion" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="https://sites.google.com/site/yijunlimaverick/face-completion" target="_blank" rel="noopener">Project</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2016">
+      <div class="thumb"><img src="quickview/eccv_djf.png" alt="Deep Joint Image Filtering" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Deep Joint Image Filtering <span class="tag">ECCV 2016</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Jia-Bin Huang, Narendra Ahuja, Ming-Hsuan Yang</div>
+        <div class="venue">European Conference on Computer Vision (<b>ECCV</b>), 2016</div>
+        <div class="links">
+          <a class="btn" href="https://drive.google.com/file/d/0B8_MZ8a8aoSeSVZRNVB1TkYtbFU/view" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://github.com/Yijunmaverick/DeepJointFilter" target="_blank" rel="noopener">Code</a>
+          <a class="btn" href="https://sites.google.com/site/yijunlimaverick/deep-joint-filter" target="_blank" rel="noopener">Project</a>
+        </div>
+      </div>
+    </article>
+    <article class="pub" data-year="2015">
+      <div class="thumb"><img src="quickview/spl_cosaliency.png" alt="Efficient Saliency-Model-Guided Visual Co-Saliency Detection" loading="lazy"></div>
+      <div class="info">
+        <h3 class="title">Efficient Saliency-Model-Guided Visual Co-Saliency Detection <span class="tag">SPL 2015</span></h3>
+        <div class="authors"><span class="me">Yijun Li</span>, Keren Fu, Zhi Liu, Jie Yang</div>
+        <div class="venue">IEEE Signal Processing Letters (<b>SPL</b>), 2015</div>
+        <div class="links">
+          <a class="btn" href="https://drive.google.com/file/d/1ZWxy_d1zZrzjHqxa85mMSaVp5-HI9ANb/view?usp=sharing" target="_blank" rel="noopener">Paper</a>
+          <a class="btn" href="https://drive.google.com/file/d/10yPWyT0n8geysP_nh91TVeobRpzlv98J/view?usp=sharing" target="_blank" rel="noopener">Code</a>
+        </div>
+      </div>
+    </article>
+  </section>
+  <div class="empty" id="empty">No matching publications.</div>
+</main>
 
-   
-<p>
- <img src="quickview/iccv_caricature.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Cross-modal Latent Space Alignment for Image to Avatar Translation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Manuel Ladron de Guevara, Jose Echevarria, <b>Yijun Li</b>, Yannick Hold-Geoffroy, Cameron Smith, Daichi Ito</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE International Conference on Computer Vision (<b>ICCV</b>), 2023</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://www.dropbox.com/scl/fi/ih0hfro5iwsde12jwybqc/ICCV23_manuel_caricature.pdf?rlkey=sqv3j0pwjdl35i94pm56yyzyr&dl=0">Paper</a>&nbsp <a href="https://www.dropbox.com/scl/fi/adx8jcmac88oyna29ja4s/ICCV23_manuel_caricature_supp.pdf?rlkey=0mn83je1cv7anzpjmqv8f2oc8&dl=0">Supplementary</a></span>
- <br>
-</p>
-    
-<p><br></p>
+<footer>Everything will be OK in the end. If it is not OK, it is not the end.</footer>
 
+<button id="toTop" aria-label="Back to top">↑</button>
 
-<p>
- <img src="quickview/siggraph_zerop2p.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Zero-shot Image-to-Image Translation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Gaurav Parmar, Krishna Kumar Singh, Richard Zhang, <b>Yijun Li</b>, Jingwan Lu, Jun-Yan Zhu</span>
- <br>
-    <span class="ban2"> &nbsp; ACM Transactions on Graphics (<b>SIGGRAPH</b>), 2023</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://pix2pixzero.github.io/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2302.03027">Paper</a>&nbsp; <a href="https://github.com/pix2pixzero/pix2pix-zero">Code</a></span>
- <br>
-</p>
-    
-<p><br></p>
-
-<p>
- <img src="quickview/eccv_inpaintingCL.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Contrastive Learning for Diverse Disentangled Foreground Generation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Yuheng Li, <b>Yijun Li</b>, Jingwan Lu, Eli Shechtman, Yong Jae Lee, Krishna Kumar Singh</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2022</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://www.ecva.net/papers/eccv_2022/papers_ECCV/papers/136760313.pdf">Paper</a></span>
- <br>
-</p>
-
-<p><br></p>
-    
-<p>
- <img src="quickview/eccv_3dfmgan.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">3D-FM GAN: Towards 3D-Controllable Face Manipulation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Yuchen Liu, Zhixin Shu, <b>Yijun Li</b>, Zhe Lin, Richard Zhang, S.Y. Kung</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2022</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://lychenyoko.github.io/3D-FM-GAN-Webpage/">Project</a> &nbsp; <a href="https://arxiv.org/abs/2208.11257">Paper</a></span>
- <br>
-</p>  
-    
-<p><br></p>
-
-<!-- 
-<p>
- <img src="quickview/siggraph_clip.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">A Fast Text-Driven Approach for Generating Artistic Content</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Marian Lupascu, Ryan Murdock, Ionut Mironica, <b>Yijun Li</b></span>
- <br>
-    <span class="ban2"> &nbsp; ACM Transactions on Graphics (<b>SIGGRAPH</b>) Posters, 2022</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://dl.acm.org/doi/10.1145/3532719.3543208">Paper</a>&nbsp; <a href="https://www.youtube.com/watch?v=MpOLYviDFck">Video</a></span>
- <br>
-</p>
-
-<p><br></p>
--->
-
-    
-<p>
- <img src="quickview/cvpr_ganinversion.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Spatially-Adaptive Multilayer Selection for GAN Inversion and Editing</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Gaurav Parmar, <b>Yijun Li</b>, Jingwan Lu, Richard Zhang, Jun-Yan Zhu, Krishna Kumar Singh</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2022</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://www.cs.cmu.edu/~SAMInversion/">Project</a>&nbsp; <a href="https://arxiv.org/abs/2206.08357">Paper</a>&nbsp; <a href="https://github.com/adobe-research/sam_inversion">Code</a></span>
- <br>
-</p>
-
-<p><br></p>
-    
-<p>
- <img src="quickview/iccv_collagegan1.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Collaging Class-specific GANs for Semantic Image Synthesis</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Yuheng Li, <b>Yijun Li</b>, Jingwan Lu, Eli Shechtman, Yong Jae Lee, Krishna Kumar Singh</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE International Conference on Computer Vision (<b>ICCV</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://yuheng-li.github.io/CollageGAN/">Project</a>&nbsp; <a href="https://openaccess.thecvf.com/content/ICCV2021/papers/Li_Collaging_Class-Specific_GANs_for_Semantic_Image_Synthesis_ICCV_2021_paper.pdf">Paper</a></span>
- <br>
-</p>
-
-<p><br></p>
-
-<p>
- <img src="quickview/ijcv_caricature2.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Learning to Caricature via Semantic Shape Transform</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Wenqing Chu, Wei-Chih Hung, Yi-Hsuan Tsai, Yu-Ting Chang, <b>Yijun Li</b>, Deng Cai, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; International Journal of Computer Vision (<b>IJCV</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/abs/2008.05090">Paper</a> &nbsp; <a href="https://github.com/wenqingchu/Semantic-CariGANs">Code</a></span>
- <br>
-</p> 
-    
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_gan2gan.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Few-shot Image Generation via Cross-domain Correspondence</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Utkarsh Ojha, <b>Yijun Li</b>, Jingwan Lu, Alexei A. Efros, Yong Jae Lee, Eli Shechtman, Richard Zhang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://utkarshojha.github.io/few-shot-gan-adaptation/">Project</a> &nbsp; <a href="https://arxiv.org/abs/2104.06820">Paper</a> &nbsp; <a href="https://github.com/utkarshojha/few-shot-gan-adaptation">Code</a></span>
- <br>
-</p> 
-    
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_swag.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Rethinking and Improving the Robustness of Image Style Transfer</font></span>
- <br>
- <span class="ban2"> &nbsp; <font color="red"><b>Oral</b></font> &nbsp; <a href="http://cvpr2021.thecvf.com/node/290"><font color="blue"><b>Best Paper Candidate</b></font></a></span>
- <br>
- <span class="ban2"> &nbsp; Pei Wang, <b>Yijun Li</b>, Nuno Vasconcelos</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/abs/2104.05623">Paper</a>&nbsp; <a href="https://github.com/peiwang062/swag">Code</a></span>
- <br>
-</p> 
-
-<p><br></p>
-
-<p>
- <img src="quickview/cvpr_imagine.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">IMAGINE: Image Synthesis by Image-Guided Model Inversion</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Pei Wang, <b>Yijun Li</b>, Krishna Kumar Singh, Jingwan Lu, Nuno Vasconcelos</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/abs/2104.05895">Paper</a></span>
- <br>
-</p> 
-
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_gan_compression1.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Content-Aware GAN Compression</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Yuchen Liu, Zhixin Shu, <b>Yijun Li</b>, Zhe Lin, Federico Perazzi, S.Y. Kung</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://lychenyoko.github.io/content_aware_gan_compression/">Project</a> &nbsp; <a href="https://arxiv.org/abs/2104.02244">Paper</a> &nbsp; <a href="https://github.com/lychenyoko/content-aware-gan-compression">Code</a></span>
- <br>
-</p>  
-    
-<p><br></p>
-    
-<p>
- <img src="quickview/wacv_extrapolation.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Controllable and Progressive Image Extrapolation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Lu Jiang, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2021</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://openaccess.thecvf.com/content/WACV2021/papers/Li_Controllable_and_Progressive_Image_Extrapolation_WACV_2021_paper.pdf">Paper</a></span>
- <br>
-</p>    
-
-<p><br></p>
-    
-<p>
- <img src="quickview/nips_ewc.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Few-shot Image Generation with Elastic Weight Consolidation</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Richard Zhang, Jingwan Lu, Eli Shechtman</span>
- <br>
-    <span class="ban2"> &nbsp; Advances in Neural Information Processing Systems (<b>NeurIPS</b>), 2020</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://yijunmaverick.github.io/publications/ewc/">Project</a> &nbsp; <a href="https://papers.nips.cc/paper/2020/file/b6d767d2f8ed5d21a44b0e5886680cb9-Paper.pdf">Paper</a> &nbsp; <a href="https://proceedings.neurips.cc/paper/2020/file/b6d767d2f8ed5d21a44b0e5886680cb9-Supplemental.pdf">Supplemental</a></span>
- <br>
-</p>    
-
-<p><br></p>
-
-<p>
- <img src="quickview/eccv_artisticflow.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Modeling Artistic Workflows for Image Generation and Editing</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Hung-Yu Tseng, Matthew Fisher, Jingwan Lu, <b>Yijun Li</b>, Vladimir Kim, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2020</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/2007.07238.pdf">Paper</a> &nbsp; <a href="https://github.com/hytseng0509/ArtEditing">Code</a></span>
- <br>
-</p>    
-
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_distill.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Collaborative Distillation for Ultra-Resolution Universal Style Transfer</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Huan Wang, <b>Yijun Li</b>, Yuehai Wang, Haoji Hu, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2020</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/2003.08436.pdf">Paper</a> &nbsp; <a href="https://github.com/mingsun-tse/collaborative-distillation">Code</a></span>
- <br>
-</p>    
-
-<p><br></p>
-
-
-<p>
- <img src="quickview/wacv_videostyle.gif" height="120" width="250" align="left"><span> &nbsp; <font size="4">Fast Video Multi-Style Transfer</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; Wei Gao, <b>Yijun Li</b>, Yihang Yin, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Winter Conference on Applications of Computer Vision (<b>WACV</b>), 2020</span>
- <br>
-    <span class="ban2"> &nbsp; <a href="http://openaccess.thecvf.com/content_WACV_2020/papers/Gao_Fast_Video_Multi-Style_Transfer_WACV_2020_paper.pdf">Paper</a> &nbsp; <a href="https://github.com/SaberArthurus/Fast-Multi-Video-Style-Transfer">Code</a></span>
- <br>
-</p>    
-
-<p><br></p>
-
-    
-<p>
- <img src="quickview/cvpr_pencil.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Im2Pencil: Controllable Pencil Illustration from Photographs</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Chen Fang, Aaron Hertzmann, Eli Shechtman, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2019</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/1903.08682.pdf">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/Im2Pencil">Code</a></span>
- <br>
-</p>
-
-<p><br></p>
-    
-<p>
- <img src="quickview/pami_djf.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Joint Image Filtering with Deep Convolutional Networks</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Jia-Bin Huang, Narendra Ahuja, Ming-Hsuan Yang</span>
- <br>
- <span class="ban2"> &nbsp; IEEE Transactions on Pattern Analysis and Machine Intelligence (<b>TPAMI</b>), 2018</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/1710.04200.pdf">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/DeepJointFilter">Code</a></span>
- <br>
-</p>
-    
-<p><br></p>
-
-<p>
- <img src="quickview/eccv_photowct1.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">A Closed-form Solution to Photorealistic Image Stylization</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Ming-Yu Liu, Xueting Li, Ming-Hsuan Yang, Jan Kautz</span>
- <br>
- <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2018</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/1802.06474.pdf">Paper</a> &nbsp; <a href="https://github.com/NVIDIA/FastPhotoStyle">Code (<font color="red"><b>11k stars</b></font>)</a></span>
- <br>
-</p>
-
-<p><br></p>
-
-<p>
- <img src="quickview/flag.png" height="120" width="125" align="left">
- <img src="quickview/flag_pred16.gif" height="120" width="125" align="left">
- <span> &nbsp; <font size="4">Flow-Grounded Spatial-Temporal Video Prediction from Still Images</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2018</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://arxiv.org/pdf/1807.09755.pdf">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/FlowGrounded-VideoPrediction">Code</a></span>
- <br>
-</p>
-
-<p><br></p>
-    
-<p>
- <img src="quickview/nips_wct.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Universal Style Transfer via Feature Transforms</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; Advances in Neural Information Processing Systems (<b>NIPS</b>), 2017</span>
- <br>
- <span class="ban2"> &nbsp; <a href="http://papers.nips.cc/paper/6642-universal-style-transfer-via-feature-transforms.pdf">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/UniversalStyleTransfer">Code</a> &nbsp; <a href="https://www.youtube.com/watch?v=v1oWke0Qf1E">Two Minute Papers</a></span>
- <br>
-</p>
-    
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_dts.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Diversified Texture Synthesis with Feed-forward Networks</font></span>
- <br>
- <span class="ban2"> &nbsp; <font color="red"><b>Spotlight</b></font></span>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Chen Fang, Jimei Yang, Zhaowen Wang, Xin Lu, Ming-Hsuan Yang</span>
- <br>
- <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2017</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://drive.google.com/file/d/1tPYy-cY3-ij3ch3V4LFvv24YoXrmOuTH/view">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/MultiTextureSynthesis">Code</a> &nbsp; <a href="https://sites.google.com/site/yijunlimaverick/texture-synthesis">Project</a></span>
- <br>
-</p>
-
-<p><br></p>
-    
-<p>
- <img src="quickview/cvpr_face.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Generative Face Completion</font></span>
- <br>
- <br>
-    <span class="ban2"> &nbsp; <b>Yijun Li</b>, Sifei Liu, Jimei Yang, Ming-Hsuan Yang</span>
- <br>
- <span class="ban2"> &nbsp; IEEE Conference on Computer Vision and Pattern Recognition (<b>CVPR</b>), 2017</span>
- <br>
- <span class="ban2"> &nbsp; <a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Li_Generative_Face_Completion_CVPR_2017_paper.pdf">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/GenerativeFaceCompletion">Code</a> &nbsp; <a href="https://sites.google.com/site/yijunlimaverick/face-completion">Project</a></span>
- <br>
-</p>
- 
-<p><br></p>
-    
-<p>
- <img src="quickview/eccv_djf.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Deep Joint Image Filtering</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Jia-Bin Huang, Narendra Ahuja, Ming-Hsuan Yang</span>
- <br>
-    <span class="ban2"> &nbsp; European Conference on Computer Vision (<b>ECCV</b>), 2016</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://drive.google.com/file/d/0B8_MZ8a8aoSeSVZRNVB1TkYtbFU/view">Paper</a> &nbsp; <a href="https://github.com/Yijunmaverick/DeepJointFilter">Code</a> &nbsp; <a href="https://sites.google.com/site/yijunlimaverick/deep-joint-filter">Project</a></span>
- <br>
-</p>
-    
-<p><br></p>
-    
-<p>
- <img src="quickview/spl_cosaliency.png" height="120" width="250" align="left"><span> &nbsp; <font size="4">Efficient Saliency-Model-Guided Visual Co-Saliency Detection</font></span>
- <br>
- <br>
- <span class="ban2"> &nbsp; <b>Yijun Li</b>, Keren Fu, Zhi Liu, Jie Yang</span>
- <br>
-    <span class="ban2"> &nbsp; IEEE Signal Processing Letters (<b>SPL</b>), 2015</span>
- <br>
- <span class="ban2"> &nbsp; <a href="https://drive.google.com/file/d/1ZWxy_d1zZrzjHqxa85mMSaVp5-HI9ANb/view?usp=sharing">Paper</a> &nbsp; <a href="https://drive.google.com/file/d/10yPWyT0n8geysP_nh91TVeobRpzlv98J/view?usp=sharing">Code</a></span>
- <br>
-</p>
-    
-    
-    
-<p>
-<br>
-</p>
-
-<hr>
-<center> Everything will be OK in the end. If it is not OK, it is not the end.</center></body></html>
+<script>
+  (function () {
+    var input = document.getElementById('search');
+    var pubs = Array.prototype.slice.call(document.querySelectorAll('.pub'));
+    var count = document.getElementById('count');
+    var empty = document.getElementById('empty');
+    var total = pubs.length;
+    input.addEventListener('input', function () {
+      var q = input.value.trim().toLowerCase();
+      var shown = 0;
+      pubs.forEach(function (p) {
+        var hit = !q || p.textContent.toLowerCase().indexOf(q) !== -1;
+        p.classList.toggle('hidden', !hit);
+        if (hit) shown++;
+      });
+      count.textContent = q ? shown + ' / ' + total + ' papers' : total + ' papers';
+      empty.style.display = shown ? 'none' : 'block';
+    });
+    var btn = document.getElementById('toTop');
+    window.addEventListener('scroll', function () {
+      btn.classList.toggle('show', window.scrollY > 600);
+    });
+    btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  })();
+</script>
+</body>
+</html>
